@@ -24,6 +24,16 @@
             --card-bg: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
             --hero-bg: linear-gradient(135deg, #000000 0%, #4a0e4e 50%, #8b5cf6 100%);
         }
+        
+        /* Smooth transitions for theme changes */
+        * {
+            transition: background-color 0.8s ease-in-out, color 0.8s ease-in-out, border-color 0.8s ease-in-out, box-shadow 0.8s ease-in-out !important;
+        }
+        
+        /* Preserve specific transitions for interactive elements */
+        .btn, .theme-toggle, .auto-cycle-toggle, .nav-link {
+            transition: all 0.3s ease, background-color 0.8s ease-in-out, color 0.8s ease-in-out !important;
+        }
 
         [data-theme="light"] {
             --primary-bg: #ffffff;
@@ -124,6 +134,95 @@
 
         .theme-selector {
             position: relative;
+        }
+
+        .auto-cycle-toggle {
+            background: var(--secondary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 500;
+            min-width: 100px;
+            position: relative;
+            overflow: hidden;
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .auto-cycle-toggle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .auto-cycle-toggle:hover {
+            background: var(--accent-bg);
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .auto-cycle-toggle:hover::before {
+            left: 100%;
+        }
+
+        .auto-cycle-toggle:active {
+            transform: translateY(0);
+            transition: transform 0.1s ease;
+        }
+
+        .auto-cycle-toggle.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        .auto-cycle-toggle.active::before {
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 0 0 0 var(--primary-color);
+            }
+            50% {
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 0 0 4px rgba(139, 92, 246, 0.3);
+            }
+        }
+
+        .auto-cycle-toggle .emoji {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .auto-cycle-toggle:hover .emoji {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .auto-cycle-toggle.active .emoji {
+            animation: bounce 1s ease-in-out infinite alternate;
+        }
+
+        @keyframes bounce {
+            from {
+                transform: scale(1);
+            }
+            to {
+                transform: scale(1.05);
+            }
         }
 
         .theme-toggle {
@@ -926,6 +1025,9 @@
         <div class="container">
             <a href="javascript:void(0)" class="logo" aria-label="Portfolio Home">BS</a>
             <div class="header-controls">
+                <button class="auto-cycle-toggle" id="autoCycleToggle" aria-label="Toggle automatic theme cycling">
+                    <span class="emoji">⏸️</span> Pause
+                </button>
                 <div class="theme-selector">
                     <button class="theme-toggle" aria-label="Change theme" aria-expanded="false">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -1135,12 +1237,12 @@
                 </div>
                 <div class="project-card">
                     <h3>Voice Command Web App</h3>
-                    <p>Developed with JavaScript and Web Speech API to capture voice input and trigger browser actions with real-time processing.</p>
+                    <p>Developed with JavaScript and Web Speech API to capture voice input and trigger browser action.</p>
                     <div class="project-tech">
                         <span class="tech-tag">JavaScript</span>
                         <span class="tech-tag">Web Speech API</span>
-                        <span class="tech-tag">SpeechRecognition</span>
-                        <span class="tech-tag">Voice UI</span>
+                        <span class="tech-tag">Voice Input</span>
+                        <span class="tech-tag">Browser Actions</span>
                     </div>
                     <a href="https://sujith099.github.io/Voice-Command-Web-App" class="demo-button" target="_blank">Live Demo</a>
                 </div>
@@ -1153,18 +1255,18 @@
                         <span class="tech-tag">Fetch API</span>
                         <span class="tech-tag">Responsive Design</span>
                     </div>
-                    <a href="javascript:void(0)" class="demo-button">Live Demo</a>
+                    <a href="https://sujith099.github.io/Weather-App" class="demo-button" target="_blank">Live Demo</a>
                 </div>
                 <div class="project-card">
-                    <h3>NLP-to-SQL Query System</h3>
-                    <p>Designed an AI system to convert natural language text queries into SQL using Hugging Face and LLaMA models.</p>
+                    <h3>AI Voice Assistant (Mini Project)</h3>
+                    <p>An AI Voice Assistant with SpeechRecognition API to trigger web actions based on voice commands.</p>
                     <div class="project-tech">
-                        <span class="tech-tag">Python</span>
-                        <span class="tech-tag">NLP</span>
-                        <span class="tech-tag">Hugging Face</span>
-                        <span class="tech-tag">SQL</span>
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">SpeechRecognition API</span>
+                        <span class="tech-tag">Voice Commands</span>
+                        <span class="tech-tag">Web Actions</span>
                     </div>
-                    <a href="javascript:void(0)" class="demo-button">Live Demo</a>
+                    <a href="https://sujith099.github.io/Marina---AI-Voice-Assistant" class="demo-button" target="_blank">Live Demo</a>
                 </div>
             </div>
         </section>
@@ -1329,19 +1431,7 @@
             });
         }
         
-        // Handle theme selection
-        themeOptions.forEach(option => {
-            option.addEventListener('click', () => {
-                const selectedTheme = option.getAttribute('data-theme');
-                console.log('Theme selected:', selectedTheme);
-                document.documentElement.setAttribute('data-theme', selectedTheme);
-                localStorage.setItem('portfolio-theme', selectedTheme);
-                updateThemeToggleText(selectedTheme);
-                if (themeDropdown) {
-                    themeDropdown.classList.remove('show');
-                }
-            });
-        });
+        // Handle theme selection - moved to auto cycling section
         
         // Close dropdown when clicking outside
         document.addEventListener('click', () => {
@@ -1356,6 +1446,83 @@
                 e.stopPropagation();
             });
         }
+
+        // Auto Theme Cycling Functionality
+        const autoCycleToggle = document.getElementById('autoCycleToggle');
+        const themes = ['dark-purple', 'light', 'ocean', 'forest', 'sunset'];
+        let currentThemeIndex = themes.indexOf(savedTheme) !== -1 ? themes.indexOf(savedTheme) : 0;
+        let autoCycleInterval = null;
+        let isAutoCycling = true;
+
+        // Function to apply theme with smooth transition
+        function applyThemeWithTransition(theme) {
+            document.documentElement.style.transition = 'all 0.8s ease-in-out';
+            document.documentElement.setAttribute('data-theme', theme);
+            updateThemeToggleText(theme);
+            localStorage.setItem('portfolio-theme', theme);
+            
+            // Remove transition after animation completes
+            setTimeout(() => {
+                document.documentElement.style.transition = '';
+            }, 800);
+        }
+
+        // Function to cycle to next theme
+        function cycleToNextTheme() {
+            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+            const nextTheme = themes[currentThemeIndex];
+            applyThemeWithTransition(nextTheme);
+        }
+
+        // Function to start auto cycling
+        function startAutoCycle() {
+            if (autoCycleInterval) clearInterval(autoCycleInterval);
+            autoCycleInterval = setInterval(cycleToNextTheme, 10000); // 10 seconds
+            isAutoCycling = true;
+            autoCycleToggle.classList.add('active');
+            autoCycleToggle.innerHTML = '<span class="emoji">⏸️</span> Pause';
+        }
+
+        // Function to stop auto cycling
+        function stopAutoCycle() {
+            if (autoCycleInterval) {
+                clearInterval(autoCycleInterval);
+                autoCycleInterval = null;
+            }
+            isAutoCycling = false;
+            autoCycleToggle.classList.remove('active');
+            autoCycleToggle.innerHTML = '<span class="emoji">▶️</span> Start';
+        }
+
+        // Toggle auto cycling on button click
+        if (autoCycleToggle) {
+            autoCycleToggle.addEventListener('click', () => {
+                if (isAutoCycling) {
+                    stopAutoCycle();
+                } else {
+                    startAutoCycle();
+                }
+            });
+        }
+
+        // Start auto cycling by default
+        startAutoCycle();
+
+        // Update theme selection to sync with auto cycling
+        themeOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const selectedTheme = option.getAttribute('data-theme');
+                currentThemeIndex = themes.indexOf(selectedTheme);
+                applyThemeWithTransition(selectedTheme);
+                if (themeDropdown) {
+                    themeDropdown.classList.remove('show');
+                }
+                // Restart auto cycling if it was active
+                if (isAutoCycling) {
+                    startAutoCycle();
+                }
+            });
+        });
 
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
